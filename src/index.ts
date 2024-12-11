@@ -1,4 +1,7 @@
-export { createUniqueFieldSchema } from "./createFieldSchema";
+export {
+  createUniqueFieldSchema,
+  createUniqueFieldSchemaWithoutBrand,
+} from "./createFieldSchema";
 export { createTsForm } from "./createSchemaForm";
 export {
   useDescription,
