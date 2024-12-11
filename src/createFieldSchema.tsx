@@ -18,14 +18,14 @@ export type SchemaWithHiddenProperties<T extends RTFSupportedZodTypes> = T & {
 };
 
 export function isSchemaWithHiddenProperties<T extends RTFSupportedZodTypes>(
-  schemaType: T
+  schemaType: T,
 ): schemaType is SchemaWithHiddenProperties<T> {
   return HIDDEN_ID_PROPERTY in schemaType._def;
 }
 
 export function addHiddenProperties<
   ID extends string,
-  T extends RTFSupportedZodTypes
+  T extends RTFSupportedZodTypes,
 >(schema: T, properties: HiddenProperties) {
   for (const key in properties) {
     (schema._def as any)[key] = properties[key as keyof typeof properties];
@@ -58,10 +58,26 @@ export function duplicateIdErrorMessage(id: string) {
  */
 export function createUniqueFieldSchema<
   T extends RTFSupportedZodTypes,
-  Identifier extends string
+  Identifier extends string,
 >(schema: T, id: Identifier) {
   const r = schema.brand<Identifier>();
   return addHiddenProperties<Identifier, typeof r>(r, {
     [HIDDEN_ID_PROPERTY]: id,
   }) as z.ZodBranded<T, Identifier>;
+}
+/*
+ * @param schema A zod schema.
+ * @param id A unique id string (this can be anything but needs to be explcitily passed).
+ * @returns A normal zod schema that will be uniquely identified in the zod-component mapping.
+ * Different from createUniqueFieldSchema in that it does not add the brand to the schema.
+ * This is useful as it will be transparent to the user of the schema
+ */
+export function createUniqueFieldSchemaWithoutBrand<
+  T extends RTFSupportedZodTypes,
+  Identifier extends string,
+>(schema: T, id: Identifier) {
+  const r = schema.brand<Identifier>();
+  return addHiddenProperties<Identifier, typeof r>(r, {
+    [HIDDEN_ID_PROPERTY]: id,
+  }) as T;
 }
