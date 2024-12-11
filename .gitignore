@@ -2,7 +2,6 @@ node_modules
 coverage
 .yarn
 .vscode
-lib/src
 .env
 
 src/playground.tsx
