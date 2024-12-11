@@ -11,3 +11,4 @@ export declare function isSchemaWithHiddenProperties<T extends RTFSupportedZodTy
 export declare function addHiddenProperties<ID extends string, T extends RTFSupportedZodTypes>(schema: T, properties: HiddenProperties): ZodBranded<T, ID>;
 export declare function duplicateIdErrorMessage(id: string): string;
 export declare function createUniqueFieldSchema<T extends RTFSupportedZodTypes, Identifier extends string>(schema: T, id: Identifier): z.ZodBranded<T, Identifier>;
+export declare function createUniqueFieldSchemaWithoutBrand<T extends RTFSupportedZodTypes, Identifier extends string>(schema: T, id: Identifier): T;
